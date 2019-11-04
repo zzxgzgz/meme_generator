@@ -1,4 +1,4 @@
-# CSS490FinalProject--MEME Generator
+# CSS490FinalProject--Captioned Image Generator
 
 This is a school project and I worked on with Francis Tran and Max Write.
 
