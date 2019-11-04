@@ -1,0 +1,154 @@
+<html>
+<head>
+    <style>
+        .grid-container {
+            display: inline-grid;
+            grid-gap: 5px;
+        }
+        .item1 {
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+        .item2 {
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+        .item3 {
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+        .item4 {
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+        .item5 {
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 3;
+            grid-row-end: 3;
+        }
+        .button1 {
+          background-color: #ff0000;
+          border: none;
+          color: white;
+          padding: 6px 32px;
+          display: inline-block;
+          font-size: 18px;
+          border-radius: 10px;
+        }
+
+
+    </style>
+    <title>Meme generator - Create Page!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>        
+        var lastBolded = "";
+        function selectTemplate(selection) {
+            console.log(selection);
+            srcInput = document.getElementById('srcInput');
+            srcInput.value = selection;
+            
+            if (lastBolded !== "") {
+                oldRevert = document.getElementById(lastBolded);
+                oldRevert.style.border = 0; 
+            }
+                
+            test = document.getElementById(selection);
+            test.style.border = "7px solid #006699";
+            lastBolded = selection;
+     
+        }
+
+        function createCORSRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                // Check if the XMLHttpRequest object has a "withCredentials" property.
+                // "withCredentials" only exists on XMLHTTPRequest2 objects.
+                xhr.open(method, url, true);
+
+            } else if (typeof XDomainRequest != "undefined") {
+                // Otherwise, check if XDomainRequest.
+                // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+
+            } else {
+                // Otherwise, CORS is not supported by the browser.
+                xhr = null;
+            }
+            return xhr;
+        }
+    </script>
+</head>
+
+<body>
+<div class="container">
+<h1>Make-A-Meme</h1>
+<div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <p>Current User is: {{ message }}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+<h2>Create a Meme</h2>
+<form action="/memes" method="POST">
+    <div class="grid-container">
+          <div class="item1">
+            <label>Top Text:</label>
+          </div>
+          <div class="item2">
+            <input type="text" name="topText" value="{{ top_quote }}"><br>
+          </div>
+          <div class="item3">
+            <label>Bottom Text:</label>
+          </div>
+          <div class="item4">
+            <input type="text" name="bottomText" value="{{ bottom_quote }}"><br>
+          </div>
+          <div class="item5">
+              <input class = button1 type="submit" value="Create Meme" name="createMeme">
+          </div>
+    </div>
+<input type="hidden" name="src" id="srcInput" value="/static/images/dimpsey1.jpg" readonly><br>
+
+
+</form>
+<p>Note: text is only required in one box!</p>
+
+<form action="/quote/dad" method="POST">
+    <input type="submit" value="Random Dad Joke" name="createMeme">
+</form>
+<form action="/quote/geek" method="POST">
+    <input type="submit" value="Random Geek Quote" name="createMeme">
+</form>
+<form action=/getUrMemes method = "POST">
+    <button type="submit" formaction="/getUrMemes">Get Ur Memes</button>
+</form>
+<p>Click a meme template below:</p>
+{% for i in range(0, len) %}
+    <img onclick="selectTemplate('{{ imgs[i] }}' )" class="img-select" src='{{ imgs[i] }}' id='{{imgs[i]}}'>
+{% endfor %}
+</div>
+<form action="/logout" method="POST">
+    <input type="submit" value="Logout" name="logoutOfService" style=" position: absolute; top: 8px; right: 16px; font-size: 18px;">
+</form>
+
+</body>
+</html>
+
+

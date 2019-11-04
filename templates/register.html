@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Meme generator - register page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="{{ url_for('static',filename='main.css') }}">
+</head>
+  <body>
+    <div class="container">
+        <h1>Registration</h1>
+        <br>
+        <form action="registerNewAccount" method="post">
+          <input type="text" placeholder="Email address" name="email_address" value="{{
+            request.form.emailAddress }}">
+           <input type="password" placeholder="Password" name="registrationPassword" value="{{
+            request.form.registrationPassword }}">
+          <input class="btn btn-default" type="submit" value="Register">
+        </form>
+        <form action=/ method = "GET">
+          <button type="submit" formaction="/">Go to login page</button>
+        </form>
+        {% if error %}
+          <p class="error"><strong>System message:</strong> {{ error }}
+        {% endif %}
+      </div>
+  </body>
+</html>
